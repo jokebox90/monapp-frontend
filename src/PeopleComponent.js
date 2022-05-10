@@ -1,8 +1,17 @@
 // src/PeopleComponent.js
 
 import _ from "lodash";
-import { Fragment, useEffect, useState } from "react";
-import { getPeople } from "./PeopleData";
+import { createRef, forwardRef, Fragment, useEffect, useState } from "react";
+import { addPeople, getPeople } from "./PeopleData";
+
+const AddPeopleComponent = forwardRef((props, ref) => {
+  return (
+    <Fragment>
+      <label>{props.hello}</label>
+      <input type="text" className="input is-large" name="add_people" ref={ref} />
+    </Fragment>
+  );
+});
 
 const PeopleComponent = () => {
   // - Objet pour transporter l'état de
@@ -38,14 +47,23 @@ const PeopleComponent = () => {
   //   API inaccessible ??
   if (!peopleState.isLoaded) return <p>Liste des personnes en cours de chargement...</p>;
 
+  const addPeopleRef = createRef();
+  const handleAddPeople = (e) => {
+    e.preventDefault();
+    alert(addPeopleRef.current.value);
+    addPeople(addPeopleRef.current.value);
+  }
+
   console.log(peopleState);
   return (
     <Fragment>
-      <h2 className="subtitle">
-        Welcome, home!
-      </h2>
+      <AddPeopleComponent ref={addPeopleRef} hello="world" />
+      <button onClick={handleAddPeople} className="button">
+        Ajouter un VIP
+      </button>
+
       <ol>
-        {_.map(peopleState.data, (people, index) => {
+        {peopleState.data && _.map(peopleState.data, (people, index) => {
           return (
             <li key={index}>
               {people}

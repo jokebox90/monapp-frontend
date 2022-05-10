@@ -5,9 +5,22 @@ import PeopleComponent from './PeopleComponent';
 function App() {
   return (
     <Fragment>
-      <h1 className="title">Hello, world!</h1>
+
       <div className="container">
-        <PeopleComponent />
+        <div class="hero is-medium is-link">
+          <div class="hero-body">
+            <p class="title">
+              Hello, world!
+            </p>
+            <p class="subtitle">
+              Medium subtitle
+            </p>
+          </div>
+        </div>
+        <div className="section is-small">
+          <PeopleComponent />
+        </div>
+
       </div>
     </Fragment>
   );
