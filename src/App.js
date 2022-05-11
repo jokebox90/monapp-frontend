@@ -7,11 +7,12 @@ function App() {
     <Fragment>
 
       <div className="container">
-        <div class="hero is-medium is-link">
-          <div class="hero-body">
-            <p class="title">
+        <div className="hero is-medium is-link">
+          <div className="hero-body">
+            <p className="title">
               Hello, world!
             </p>
+            <p className="subtitle">
             <p class="subtitle">
               Medium subtitle
             </p>
