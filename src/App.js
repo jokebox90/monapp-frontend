@@ -13,8 +13,7 @@ function App() {
               Hello, world!
             </p>
             <p className="subtitle">
-            <p class="subtitle">
-              Medium subtitle
+              Ma liste de VIP
             </p>
           </div>
         </div>
