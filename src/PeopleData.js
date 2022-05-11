@@ -5,21 +5,21 @@ import _ from "lodash";
 
 const API_URL = "https://localhost:8000"
 
-export const getPeople = () => {
+export const getPeople = async () => {
   const peoples = [];
 
-  axios.get(`${API_URL}/index`)
+  await axios.get(`${API_URL}/index`)
     .then((response) => {
-      _.each(response.data.peoples, people => peoples.push(people));
+      _.map(response.data.peoples, (people) => peoples.push(people));
     });
 
   return peoples;
 };
 
-export const addPeople = (name) => {
+export const addPeople = async (name) => {
   let result;
 
-  axios.post(`${API_URL}/people/add`, { name: name })
+  await axios.post(`${API_URL}/people/add`, { name: name })
     .then((response) => {
       result = response.data.message;
     });
