@@ -3,12 +3,11 @@
 import _ from "lodash";
 import { Fragment, useEffect, useState } from "react";
 import AddPeopleComponent from "./AddPeopleComponent";
-import { getPeople } from "./PeopleData";
+import { getPeople, removePeople } from "./PeopleData";
 
 const PeopleComponent = () => {
 
   // Créé l'état principal du composant à partir de l'objet init
-  const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -25,16 +24,27 @@ const PeopleComponent = () => {
   //   API inaccessible ??
   if (!data) return <p>Liste de personnes en cours de chargement...</p>;
 
+  const resetData = () => setData(null);
+
+  const handleButton = (e) => {
+    removePeople(e.target.innerHTML)
+      .then(resetData);
+  };
+
   return (
     <Fragment>
-      <AddPeopleComponent addPeopleCallback={() => setData(null)} />
-      {_.map(data, (people, index) => {
-        return (
-          <button className="button" key={index}>
-            {people}
-          </button>
-        );
-      })}
+      <AddPeopleComponent addPeopleCallback={resetData} />
+      <div className="field is-grouped is-grouped-multiline">
+        {_.map(data, (people, index) => {
+          return (
+            <div key={index} className="control">
+              <button className="button" onClick={handleButton}>
+                {people}
+              </button>
+            </div>
+          );
+        })}
+      </div>
     </Fragment>
   );
 }

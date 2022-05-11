@@ -26,3 +26,14 @@ export const addPeople = async (name) => {
 
   return result;
 };
+
+export const removePeople = async (name) => {
+  let result;
+
+  await axios.delete(`${API_URL}/people/${name}`)
+    .then((response) => {
+      result = response.data.message;
+    });
+
+  return result;
+};
