@@ -33,17 +33,31 @@ const PeopleComponent = () => {
 
   return (
     <Fragment>
-      <AddPeopleComponent addPeopleCallback={resetData} />
-      <div className="field is-grouped is-grouped-multiline">
-        {_.map(data, (people, index) => {
-          return (
-            <div key={index} className="control">
-              <button className="button" onClick={handleButton}>
-                {people}
-              </button>
-            </div>
-          );
-        })}
+      <div className="hero is-medium has-background-primary">
+        <div className="hero-body">
+          <p className="title is-size-1 has-text-white has-text-centered is-family-handwriting">
+            Ma liste
+          </p>
+          <p className="title is-size-1 has-text-white has-text-centered is-family-serif">
+            V.I.P
+          </p>
+        </div>
+      </div>
+      <div className="section is-small has-background-secondary">
+        <AddPeopleComponent addPeopleCallback={resetData} />
+      </div>
+      <div className="section is-medium has-background-light">
+        <div className="field is-grouped is-grouped-multiline is-justify-content-center">
+          {_.map(data, (people, index) => {
+            return (
+              <div key={index} className="control">
+                <button className="button is-danger is-rounded" onClick={handleButton}>
+                  {people}
+                </button>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </Fragment>
   );

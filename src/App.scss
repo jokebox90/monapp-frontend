@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap');
+@import 'bulma';
+
+$brown: #876445;
+$brown-1: #CA965C;
+$brown-2: #EEC373;
+$brown-light: #F4DFBA;
+
+.hero {
+  background-color: $brown !important;
+  color: #FFFFFF;
+}
+
+.has-background-primary {
+  background-color: $brown !important;
+}
+
+.has-background-secondary {
+  background-color: $brown-1 !important;
+}
+
+.has-background-light {
+  background-color: $brown-light !important;
+}
+
+.is-family-handwriting {
+  font-family: Tangerine, Georgia, 'Times New Roman', Times, serif;
+  font-weight: bold;
+}
+// html, body, #root {
+//   min-height: 100vh;
+// }
