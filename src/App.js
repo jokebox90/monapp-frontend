@@ -1,13 +1,19 @@
 import './App.scss'
-import { Fragment } from 'react';
+
+import React from 'react';
+import { BrowserRouter, Routes, Route  } from "react-router-dom";
+import { HelmetProvider } from 'react-helmet-async';
 import PeopleComponent from './PeopleComponent';
 
-function App() {
+
+export default function App() {
   return (
-    <Fragment>
-      <PeopleComponent />
-    </Fragment>
+    <HelmetProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<PeopleComponent />} />
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
-
-export default App;

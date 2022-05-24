@@ -2,6 +2,7 @@
 
 import _ from "lodash";
 import { Fragment, useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import AddPeopleComponent from "./AddPeopleComponent";
 import { getPeople, removePeople } from "./PeopleData";
 
@@ -33,6 +34,9 @@ const PeopleComponent = () => {
 
   return (
     <Fragment>
+      <Helmet>
+        <title>People Component</title>
+      </Helmet>
       <div className="hero is-medium has-background-primary">
         <div className="hero-body">
           <p className="title is-size-1 has-text-white has-text-centered is-family-handwriting">
