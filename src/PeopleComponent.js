@@ -1,24 +1,29 @@
 // src/PeopleComponent.js
 
 import _ from "lodash";
-import { Fragment, useEffect, useState } from "react";
+import { createRef, Fragment, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { toast } from "react-toastify";
 import AddPeopleComponent from "./AddPeopleComponent";
-import { getPeople, removePeople } from "./PeopleData";
+import { addPeople, getPeople, removePeople } from "./PeopleData";
 
 const PeopleComponent = () => {
 
   // Créé l'état principal du composant à partir de l'objet init
   const [data, setData] = useState(null);
 
-  useEffect(() => {
-    if (!data) {
-      getPeople()
-        .then((peoples) => {
-          setData(peoples);
-        });
-    }
-  }, [data]);
+  const peopleRef = createRef();
+  peopleRef.current = {
+    inputRef: createRef(),
+    buttonRef: createRef(),
+  };
+
+  if (!data) {
+    getPeople()
+      .then((peoples) => {
+        setData(peoples);
+      });
+  }
 
   // - N'affiche qu'un message tant que la boucle
   //   n'a pas pu charger les données
@@ -31,6 +36,45 @@ const PeopleComponent = () => {
     removePeople(e.target.innerHTML)
       .then(resetData);
   };
+
+  const handleAddPeople = (e) => {
+    e.preventDefault();
+
+    const { inputRef, buttonRef } = peopleRef.current;
+    const value = inputRef.current.value;
+
+    if (!value || value === "") {
+      toast("Oups ! Impossible d'enregistrer une valeure vide.", {
+        onOpen: () => {
+          inputRef.current.className = "input is-small is-rounded is-danger has-background-danger-light";
+          buttonRef.current.className = "button is-small is-rounded is-danger";
+        },
+        onClose: () => {
+          inputRef.current.className = "input is-small is-rounded";
+          buttonRef.current.className = "button is-small is-rounded is-success";
+        },
+      });
+    }
+    else {
+      addPeople(inputRef.current.value)
+        .then(({ data, headers, status, statusText }) => {
+          if (status >= 400) {
+            _.each(data.errors, (error) => {
+              toast(error, {
+                onOpen: () => {
+                  inputRef.current.className = "input is-small is-rounded is-danger has-background-danger-light";
+                  buttonRef.current.className = "button is-small is-rounded is-danger";
+                },
+                onClose: () => {
+                  inputRef.current.className = "input is-small is-rounded";
+                  buttonRef.current.className = "button is-small is-rounded is-success";
+                },
+              });
+            });
+          }
+        });
+    };
+  }
 
   return (
     <Fragment>
@@ -48,7 +92,7 @@ const PeopleComponent = () => {
         </div>
       </div>
       <div className="section is-small has-background-secondary">
-        <AddPeopleComponent addPeopleCallback={resetData} />
+        <AddPeopleComponent handler={handleAddPeople} ref={peopleRef} />
       </div>
       <div className="section is-medium has-background-light">
         <div className="field is-grouped is-grouped-multiline is-justify-content-center">

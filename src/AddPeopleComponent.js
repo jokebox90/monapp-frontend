@@ -1,42 +1,11 @@
 // src/PeopleComponent.js
 
-import _ from "lodash";
-import { createRef, Fragment, useEffect, useState,  } from "react";
-import { addPeople } from "./PeopleData";
-import { ToastContainer, toast } from 'react-toastify';
+import { forwardRef, Fragment, } from "react";
+import { ToastContainer, } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const AddPeopleComponent = (props) => {
-  const initState = {
-    message: null,
-  };
-  const [message, setMessage] = useState(null);
-
-  const inputRef = createRef();
-  const buttonRef = createRef();
-
-  const handleAddPeople = (e) => {
-    e.preventDefault();
-
-    const value = inputRef.current.value;
-
-    if (!value || value === "") {
-      toast("Oups ! Impossible d'enregistrer une valeure vide.", {
-        onOpen: () => {
-          inputRef.current.className = "input is-small is-rounded is-danger has-background-danger-light";
-          buttonRef.current.className = "button is-small is-rounded is-danger";
-        },
-        onClose: () => {
-          inputRef.current.className = "input is-small is-rounded";
-          buttonRef.current.className = "button is-small is-rounded is-success";
-        },
-      });
-    }
-    else {
-      addPeople(inputRef.current.value)
-        .then(props.addPeopleCallback);
-    };
-  }
+const AddPeopleComponent = forwardRef((props, ref) => {
+  const { inputRef, buttonRef } = ref.current;
 
   return (
     <Fragment>
@@ -51,7 +20,7 @@ const AddPeopleComponent = (props) => {
           />
         </div>
         <div className="control">
-          <button className="button is-small is-rounded is-success" onClick={handleAddPeople} ref={buttonRef}>
+          <button className="button is-small is-rounded is-success" onClick={props.handler} ref={buttonRef}>
             Inviter
           </button>
         </div>
@@ -59,6 +28,6 @@ const AddPeopleComponent = (props) => {
       <ToastContainer />
     </Fragment>
   );
-};
+});
 
 export default AddPeopleComponent;

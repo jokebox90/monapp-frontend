@@ -3,7 +3,7 @@
 import axios from "axios";
 import _ from "lodash";
 
-const API_URL = "https://localhost:8000"
+const API_URL = "http://localhost:8000"
 
 export const getPeople = async () => {
   const peoples = [];
@@ -17,11 +17,14 @@ export const getPeople = async () => {
 };
 
 export const addPeople = async (name) => {
-  let result;
+  const result = {};
 
   await axios.post(`${API_URL}/people/add`, { name: name })
     .then((response) => {
-      result = response.data.message;
+      _.assign(result, response);
+    })
+    .catch((error) => {
+      _.assign(result, error.response);
     });
 
   return result;
@@ -30,7 +33,7 @@ export const addPeople = async (name) => {
 export const removePeople = async (name) => {
   let result;
 
-  await axios.delete(`${API_URL}/people/${name}`)
+  await axios.delete(`${API_URL}/people/${btoa(name)}`)
     .then((response) => {
       result = response.data.message;
     });
