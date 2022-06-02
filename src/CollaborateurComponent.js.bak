@@ -1,0 +1,130 @@
+// src/CollaborateurComponent.js
+
+import _ from "lodash";
+
+import { Fragment, useEffect, useState } from "react";
+import AddCollaborateurComponent from "./AddCollaborateurComponent";
+import { getCollaborateur, removeCollaborateur, getTitle, getSubtitle, getDescription,  } from "./CollaborateurData";
+// import Image from '../public/images';
+
+// const listeCollaborateur = [
+//   {
+//     title: "un titre1",
+//     subtitle: "planche",
+//     description: "Lorem ipsum dolor sit amet.",
+//     // image: "/public/images/collaborateurs/avatar1.jpg"
+//   },
+//   {
+//     title: "un titre2",
+//     subtitle: "planche",
+//     description: "Lorem ipsum dolor sit amet.",
+//     // image: "/public/images/collaborateurs/avatar2.jpg"
+//   },
+//   {
+//     title: "un titre3",
+//     subtitle: "planche",
+//     description: "Lorem ipsum dolor sit amet.",
+//     // image: "/public/images/collaborateurs/avatar3.jpg"
+//   }
+// ];
+
+const CollaborateurComponent = () => {
+
+  // Créé l'état principal du composant à partir de l'objet init
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    if (!data) {
+      getCollaborateur()
+        .then((collaborateurs) => {  
+
+          setData(collaborateurs);    
+        });
+    }
+
+  }, [data]);
+  console.log(data);
+  // - N'affiche qu'un message tant que la boucle
+  //   n'a pas pu charger les données
+  //   API inaccessible ??
+  if (!data) return <p>Liste de collaborateurs en cours de chargement...</p>;
+
+  const resetData = () => setData(null);
+
+  const handleButton = (e) => {
+    removeCollaborateur(e.target.innerHTML)
+      .then(resetData);
+  };
+
+  return (
+    <Fragment>
+      <div className="hero is-medium has-background-link">
+        <div className="hero-body">
+          <p className="title is-size-1 has-text-white has-text-centered is-family-handwriting">
+            Ma liste de
+          </p>
+          <p className="title is-size-1 has-text-white has-text-centered is-family-handwriting">
+            Collaborateurs
+          </p>
+          <AddCollaborateurComponent addCollaborateurCallback={resetData} />
+        </div>
+      </div>
+
+      <div className="section is-medium is-desktop is-flex is-justify-content-space-around">
+      {data.map((Collaborateur, index) => {
+
+        // Déroule le tableau et affichede données formatées HTML/CSS
+        return (
+          <div key={{index}} className="block is-flex is-justify-content-center">
+
+            <figure>
+
+              <figcaption className="has-text-centered">
+
+                <div className="block">
+
+                  <p className="title is-4 has-text-weight-bold">
+                    { data.map(( collaborateur,index ) => {
+                      return (
+                      <div key={index}> { collaborateur.title } </div> 
+                      )
+                    }}
+                  </p>
+
+                  {/* <p className="subtitle is-6 is-capitalized has-text-weight-medium">
+                  { data.map(( collaborateur,index ) => <div key={index} > { collaborateur.subtitle } </div> ) }
+                  </p>
+
+                </div>
+                <div className="block">
+
+                  <p>
+                  { data.map(( collaborateur,index ) => <div key={index} > { collaborateur.description } </div> ) }
+                  </p> */}
+
+                </div>
+              </figcaption>
+            </figure>
+          </div>
+        );
+      })}
+    </div>
+
+
+
+      {/* <div className="field is-grouped is-grouped-multiline">
+        {_.map(data, (collaborateur, index) => {
+          return (
+            <div key={index} className="control">
+              <button className="button is-danger is-small " onClick={handleButton}>
+                {collaborateur}
+              </button>
+            </div>
+          );
+        })}
+      </div> */}
+    </Fragment>
+  );
+}
+
+export default CollaborateurComponent;

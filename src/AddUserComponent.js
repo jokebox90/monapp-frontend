@@ -1,12 +1,12 @@
-// src/PeopleComponent.js
+// src/UserComponent.js
 
 import _ from "lodash";
 import { createRef, Fragment, useEffect, useState,  } from "react";
-import { addPeople } from "./PeopleData";
+import { addUser } from "./UserData";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const AddPeopleComponent = (props) => {
+const AddUserComponent = (props) => {
   const initState = {
     message: null,
   };
@@ -15,7 +15,7 @@ const AddPeopleComponent = (props) => {
   const inputRef = createRef();
   const buttonRef = createRef();
 
-  const handleAddPeople = (e) => {
+  const handleAddUser = (e) => {
     e.preventDefault();
 
     const value = inputRef.current.value;
@@ -33,8 +33,8 @@ const AddPeopleComponent = (props) => {
       });
     }
     else {
-      addPeople(inputRef.current.value)
-        .then(props.addPeopleCallback);
+      addUser(inputRef.current.value)
+        .then(props.addUserCallback);
     };
   }
 
@@ -45,13 +45,13 @@ const AddPeopleComponent = (props) => {
           <input
             type="text"
             className="input is-small is-rounded"
-            name="add_people"
+            name="add_user"
             placeholder="Veuillez taper un nom ici..."
             ref={inputRef}
           />
         </div>
         <div className="control">
-          <button className="button is-small is-rounded is-success" onClick={handleAddPeople} ref={buttonRef}>
+          <button className="button is-small is-rounded is-success" onClick={handleAddUser} ref={buttonRef}>
             Inviter
           </button>
         </div>
@@ -61,4 +61,4 @@ const AddPeopleComponent = (props) => {
   );
 };
 
-export default AddPeopleComponent;
+export default AddUserComponent;

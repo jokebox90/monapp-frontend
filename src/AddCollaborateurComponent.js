@@ -1,12 +1,12 @@
-// src/PeopleComponent.js
+// src/CollaborateurComponent.js
 
 import _ from "lodash";
 import { createRef, Fragment, useEffect, useState,  } from "react";
-import { addPeople } from "./PeopleData";
+import { addCollaborateur } from "./CollaborateurData";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const AddPeopleComponent = (props) => {
+const AddCollaborateurComponent = (props) => {
   const initState = {
     message: null,
   };
@@ -15,7 +15,7 @@ const AddPeopleComponent = (props) => {
   const inputRef = createRef();
   const buttonRef = createRef();
 
-  const handleAddPeople = (e) => {
+  const handleAddCollaborateur = (e) => {
     e.preventDefault();
 
     const value = inputRef.current.value;
@@ -23,18 +23,18 @@ const AddPeopleComponent = (props) => {
     if (!value || value === "") {
       toast("Oups ! Impossible d'enregistrer une valeure vide.", {
         onOpen: () => {
-          inputRef.current.className = "input is-small is-rounded is-danger has-background-danger-light";
-          buttonRef.current.className = "button is-small is-rounded is-danger";
+          inputRef.current.className = "input is-medium is-danger has-background-danger-light";
+          buttonRef.current.className = "button is-medium is-danger";
         },
         onClose: () => {
-          inputRef.current.className = "input is-small is-rounded";
-          buttonRef.current.className = "button is-small is-rounded is-success";
+          inputRef.current.className = "input is-medium";
+          buttonRef.current.className = "button is-medium is-link is-light";
         },
       });
     }
     else {
-      addPeople(inputRef.current.value)
-        .then(props.addPeopleCallback);
+      addCollaborateur(inputRef.current.value)
+        .then(props.addCollaborateurCallback);
     };
   }
 
@@ -44,14 +44,14 @@ const AddPeopleComponent = (props) => {
         <div className="control">
           <input
             type="text"
-            className="input is-small is-rounded"
-            name="add_people"
+            className="input is-meduim"
+            name="add_collaborateur"
             placeholder="Veuillez taper un nom ici..."
             ref={inputRef}
           />
         </div>
         <div className="control">
-          <button className="button is-small is-rounded is-success" onClick={handleAddPeople} ref={buttonRef}>
+          <button className="button is-link is-light" onClick={handleAddCollaborateur} ref={buttonRef}>
             Inviter
           </button>
         </div>
@@ -61,4 +61,4 @@ const AddPeopleComponent = (props) => {
   );
 };
 
-export default AddPeopleComponent;
+export default AddCollaborateurComponent;
